@@ -85,6 +85,20 @@ impl List {
         (List::from(l.to_vec()), List::from(r.to_vec()))
     }
 
+    fn head(self) -> Option<i32> {
+        match self {
+            Self::Cons(h, _) => Some(h),
+            Self::Nil => None
+        }
+    }
+
+    fn tail(self) -> Option<Box<List>> {
+        match self {
+            Self::Cons(h, l) => Some(l),
+            Self::Nil => None
+        }
+    }
+
 }
 
 
@@ -208,6 +222,30 @@ mod tests {
     fn mut_vec_nil() {
         let l1 = List::new();
         assert_eq!(l1.as_mut_vec(), Vec::new());
+    }
+
+    #[test]
+    fn head_cons() {
+        let l1 = List::from(vec![1,2,3]);
+        assert_eq!(l1.head(), Some(1));
+    }
+
+    #[test]
+    fn head_nil() {
+        let l1 = List::new();
+        assert_eq!(l1.head(), None);
+    }
+
+    #[test]
+    fn tail_cons() {
+        let l1 = List::from(vec![1,2,3]);
+        assert_eq!(l1.tail(), Some(Box::new(List::from(vec![2,3]))));
+    }
+
+    #[test]
+    fn tail_nil() {
+        let l1 = List::new();
+        assert_eq!(l1.tail(), None);
     }
 }
 
